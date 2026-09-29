@@ -3,180 +3,469 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Timo Shop - Boutique en ligne</title>
-
+  <meta name="description" content="Timo Shop - Boutique en ligne">
+  <title>Timo Shop | Boutique en ligne</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      --primary:#7b1734;
+      --primary-dark:#551025;
+      --light:#faf7f8;
+      --dark:#171717;
+      --muted:#707070;
+      --white:#fff;
+      --border:#e9e3e5;
+      --success:#168a50;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--light);color:var(--dark)}
+    button,input,select{font:inherit}
+    a{text-decoration:none;color:inherit}
+
+    header{
+      position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);
+      border-bottom:1px solid var(--border);backdrop-filter:blur(10px)
+    }
+    .nav{
+      max-width:1150px;margin:auto;padding:14px 18px;display:flex;align-items:center;
+      justify-content:space-between;gap:15px
+    }
+    .logo{font-weight:800;font-size:1.35rem;color:var(--primary)}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{font-weight:600;font-size:.95rem}
+    .cart-btn{
+      border:0;background:var(--primary);color:#fff;padding:10px 14px;border-radius:12px;
+      cursor:pointer;font-weight:700
+    }
+    .badge{background:#fff;color:var(--primary);padding:2px 7px;border-radius:99px;margin-left:4px}
+
+    .hero{
+      max-width:1150px;margin:22px auto;padding:50px 22px;border-radius:24px;
+      background:linear-gradient(135deg,#5b1027,#9d3454);color:#fff;
+      box-shadow:var(--shadow);overflow:hidden
+    }
+    .hero-inner{max-width:700px}
+    .hero small{opacity:.85;font-weight:700;letter-spacing:.5px}
+    .hero h1{font-size:clamp(2rem,6vw,4rem);line-height:1.05;margin:12px 0}
+    .hero p{font-size:1.05rem;line-height:1.6;opacity:.93}
+    .hero-cta{
+      display:inline-block;margin-top:10px;background:#fff;color:var(--primary);
+      padding:13px 18px;border-radius:12px;font-weight:800
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-    }
+    .container{max-width:1150px;margin:auto;padding:0 18px}
+    .section-title{margin:38px 0 18px}
+    .section-title h2{margin:0 0 5px}
+    .section-title p{margin:0;color:var(--muted)}
 
-    header {
-      background: #111;
-      color: white;
-      padding: 20px;
-      text-align: center;
+    .tools{
+      display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:20px
     }
-
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
+    .search,.category{
+      background:#fff;border:1px solid var(--border);border-radius:13px;padding:13px 14px;
+      outline:none;width:100%
     }
+    .search:focus,.category:focus{border-color:var(--primary)}
 
-    header p {
-      font-size: 14px;
+    .products{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px
     }
-
-    .hero {
-      background: white;
-      padding: 30px 20px;
-      text-align: center;
+    .product{
+      background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;
+      box-shadow:0 5px 20px rgba(0,0,0,.04);display:flex;flex-direction:column
     }
-
-    .hero h2 {
-      font-size: 26px;
-      margin-bottom: 10px;
+    .product img{width:100%;height:220px;object-fit:cover;background:#eee}
+    .product-body{padding:15px;display:flex;flex-direction:column;gap:9px;flex:1}
+    .category-label{font-size:.78rem;color:var(--primary);font-weight:800;text-transform:uppercase}
+    .product h3{margin:0;font-size:1.08rem}
+    .price{font-size:1.1rem;font-weight:800}
+    .product button{
+      margin-top:auto;border:0;background:var(--primary);color:#fff;padding:11px;border-radius:10px;
+      cursor:pointer;font-weight:700
     }
+    .product button:hover{background:var(--primary-dark)}
+    .empty{padding:25px;background:#fff;border:1px solid var(--border);border-radius:15px;text-align:center;color:var(--muted)}
 
-    .hero p {
-      color: #666;
-      margin-bottom: 20px;
+    .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0}
+    .info-card{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px}
+    .info-card h3{margin-top:0}
+
+    .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+    .review{background:#fff;border:1px solid var(--border);border-radius:17px;padding:18px}
+    .stars{letter-spacing:2px;margin-bottom:8px}
+
+    footer{background:#1c1c1c;color:#fff;margin-top:40px}
+    .footer-inner{max-width:1150px;margin:auto;padding:28px 18px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:25px}
+    .footer-inner p{color:#ccc;line-height:1.6}
+    .footer-inner h3{margin-top:0}
+    .copyright{border-top:1px solid #333;text-align:center;padding:14px;color:#aaa;font-size:.9rem}
+
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;display:none
     }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
+    .overlay.show{display:block}
+    .cart-panel{
+      position:fixed;right:0;top:0;height:100vh;width:min(440px,94vw);background:#fff;z-index:100;
+      transform:translateX(100%);transition:.25s;display:flex;flex-direction:column
     }
-
-    .product {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .cart-panel.show{transform:translateX(0)}
+    .cart-head{padding:18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .close{border:0;background:#f1eef0;border-radius:10px;padding:8px 11px;cursor:pointer}
+    .cart-items{padding:15px;overflow:auto;flex:1}
+    .cart-item{
+      display:grid;grid-template-columns:65px 1fr auto;gap:10px;align-items:center;
+      border-bottom:1px solid var(--border);padding:12px 0
     }
-
-    .product img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .cart-item img{width:65px;height:65px;object-fit:cover;border-radius:10px}
+    .cart-item h4{margin:0 0 4px}
+    .qty{display:flex;align-items:center;gap:7px;margin-top:7px}
+    .qty button{border:1px solid var(--border);background:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer}
+    .remove{border:0;background:none;color:#a00;cursor:pointer;font-size:.8rem}
+    .cart-foot{border-top:1px solid var(--border);padding:16px}
+    .total{display:flex;justify-content:space-between;font-size:1.2rem;font-weight:800;margin-bottom:12px}
+    .whatsapp{
+      display:block;text-align:center;background:var(--success);color:#fff;padding:13px;border-radius:11px;
+      font-weight:800
     }
+    .clear{width:100%;margin-top:9px;border:1px solid var(--border);background:#fff;padding:10px;border-radius:10px;cursor:pointer}
 
-    .product-info {
-      padding: 12px;
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;
+      background:#222;color:#fff;padding:12px 16px;border-radius:10px;z-index:200;transition:.25s;
+      pointer-events:none
     }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
 
-    .product h3 {
-      margin-bottom: 7px;
+    @media(max-width:900px){
+      .products{grid-template-columns:repeat(2,1fr)}
+      .info-grid,.reviews{grid-template-columns:1fr}
+      .footer-inner{grid-template-columns:1fr}
     }
-
-    .price {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .order {
-      display: block;
-      background: #25D366;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      border-radius: 7px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 25px;
-      margin-top: 20px;
-    }
-
-    @media (min-width: 700px) {
-      .products {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    @media(max-width:650px){
+      .nav-links a{display:none}
+      .hero{margin:12px 10px;padding:38px 20px;border-radius:18px}
+      .container{padding:0 12px}
+      .tools{grid-template-columns:1fr}
+      .products{grid-template-columns:repeat(2,1fr);gap:10px}
+      .product img{height:175px}
+      .product-body{padding:11px}
+      .product h3{font-size:1rem}
+      .price{font-size:1rem}
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>🛍️ Timo Shop</h1>
-    <p>Votre boutique en ligne</p>
-  </header>
+<header>
+  <nav class="nav">
+    <a class="logo" href="#accueil">🛍️ Timo Shop</a>
+    <div class="nav-links">
+      <a href="#produits">Produits</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+      <button class="cart-btn" onclick="openCart()">🛒 Panier <span class="badge" id="cartCount">0</span></button>
+    </div>
+  </nav>
+</header>
 
-  <section class="hero">
-    <h2>Bienvenue chez Timo Shop</h2>
-    <p>Découvrez nos produits et commandez directement sur WhatsApp.</p>
+<main>
+  <section class="hero" id="accueil">
+    <div class="hero-inner">
+      <small>BIENVENUE CHEZ TIMO SHOP</small>
+      <h1>Votre boutique en ligne, simple et professionnelle.</h1>
+      <p>Découvrez nos produits, ajoutez-les au panier et envoyez votre commande directement sur WhatsApp.</p>
+      <a class="hero-cta" href="#produits">Découvrir les produits</a>
+    </div>
   </section>
 
-  <section class="products">
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80">
-      <div class="product-info">
-        <h3>T-Shirt</h3>
-        <p class="price">5 000 FCFA</p>
-        <a class="order" href="https://wa.me/2290168465541" target="_blank">
-          Commander
-        </a>
+  <div class="container">
+    <section id="produits">
+      <div class="section-title">
+        <h2>Nos produits</h2>
+        <p>Recherchez un produit ou choisissez une catégorie.</p>
       </div>
-    </div>
 
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80">
-      <div class="product-info">
-        <h3>Jean</h3>
-        <p class="price">8 000 FCFA</p>
-        <a class="order" href="https://wa.me/2290168465541" target="_blank">
-          Commander
-        </a>
+      <div class="tools">
+        <input id="search" class="search" type="search" placeholder="🔎 Rechercher un produit..." oninput="renderProducts()">
+        <select id="category" class="category" onchange="renderProducts()">
+          <option value="Tous">Toutes les catégories</option>
+        </select>
       </div>
-    </div>
 
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80">
-      <div class="product-info">
-        <h3>Chemise</h3>
-        <p class="price">7 000 FCFA</p>
-        <a class="order" href="https://wa.me/2290168465541" target="_blank">
-          Commander
-        </a>
+      <div id="products" class="products"></div>
+    </section>
+
+    <section id="apropos">
+      <div class="section-title">
+        <h2>Pourquoi acheter chez nous ?</h2>
+        <p>Une présentation claire pour rassurer vos futurs clients.</p>
       </div>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80">
-      <div class="product-info">
-        <h3>Robe</h3>
-        <p class="price">10 000 FCFA</p>
-        <a class="order" href="https://wa.me/2290168465541" target="_blank">
-          Commander
-        </a>
+      <div class="info-grid">
+        <div class="info-card"><h3>🚚 Livraison</h3><p>Indiquez ici vos zones et conditions de livraison.</p></div>
+        <div class="info-card"><h3>💬 Commande facile</h3><p>Le client choisit ses articles et vous envoie sa commande sur WhatsApp.</p></div>
+        <div class="info-card"><h3>🔒 Service de proximité</h3><p>Ajoutez ici les informations qui rassurent vos clients.</p></div>
       </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>⭐ Avis clients</h2>
+        <p>Exemples à remplacer par les vrais avis de l'entreprise.</p>
+      </div>
+      <div class="reviews">
+        <div class="review"><div class="stars">★★★★★</div><b>Client 1</b><p>« Très bon service et commande facile. »</p></div>
+        <div class="review"><div class="stars">★★★★★</div><b>Client 2</b><p>« Produit conforme et livraison rapide. »</p></div>
+        <div class="review"><div class="stars">★★★★☆</div><b>Client 3</b><p>« Site simple et pratique pour commander. »</p></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <h3>🛍️ Timo Shop</h3>
+      <p>Votre boutique en ligne. Remplacez ce texte par la présentation de l'entreprise cliente.</p>
     </div>
+    <div>
+      <h3>📍 Entreprise</h3>
+      <p>Adresse : à compléter<br>Ville : à compléter<br>Horaires : à compléter</p>
+    </div>
+    <div>
+      <h3>📞 Contact</h3>
+      <p>WhatsApp : à compléter<br>Email : à compléter</p>
+    </div>
+  </div>
+  <div class="copyright">© 2026 Timo Shop — Tous droits réservés</div>
+</footer>
 
-  </section>
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-  <footer>
-    <p>📞 WhatsApp : +2290168465541</p>
-    <p>© 2026 Timo Shop</p>
-  </footer>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h2>🛒 Mon panier</h2>
+    <button class="close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="total"><span>Total</span><span id="cartTotal">0 FCFA</span></div>
+    <a id="whatsappOrder" class="whatsapp" href="#" target="_blank">💬 Commander sur WhatsApp</a>
+    <button class="clear" onclick="clearCart()">Vider le panier</button>
+  </div>
+</aside>
 
+<div class="toast" id="toast"></div>
+
+<script>
+  /* =========================================================
+     PERSONNALISATION RAPIDE POUR CHAQUE ENTREPRISE
+     1. Remplace WHATSAPP_NUMBER par le numéro WhatsApp du client
+        au format international, sans + ni espaces.
+     2. Modifie les produits dans PRODUCTS.
+     3. Remplace les photos par tes propres liens d'images.
+     ========================================================= */
+
+  const WHATSAPP_NUMBER = "229XXXXXXXXXX";
+
+  const PRODUCTS = [
+    {
+      id: 1,
+      name: "T-Shirt",
+      price: 5000,
+      category: "Vêtements",
+      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 2,
+      name: "Jean",
+      price: 8000,
+      category: "Vêtements",
+      image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 3,
+      name: "Chemise",
+      price: 7000,
+      category: "Vêtements",
+      image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 4,
+      name: "Robe",
+      price: 10000,
+      category: "Vêtements",
+      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 5,
+      name: "Sac",
+      price: 12000,
+      category: "Accessoires",
+      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 6,
+      name: "Chaussures",
+      price: 15000,
+      category: "Chaussures",
+      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  let cart = JSON.parse(localStorage.getItem("timoShopCart") || "[]");
+
+  function money(value){
+    return new Intl.NumberFormat("fr-FR").format(value) + " FCFA";
+  }
+
+  function initCategories(){
+    const select = document.getElementById("category");
+    const categories = [...new Set(PRODUCTS.map(p => p.category))];
+    select.innerHTML = '<option value="Tous">Toutes les catégories</option>';
+    categories.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.textContent = cat;
+      select.appendChild(option);
+    });
+  }
+
+  function renderProducts(){
+    const box = document.getElementById("products");
+    const query = document.getElementById("search").value.toLowerCase().trim();
+    const category = document.getElementById("category").value;
+
+    const list = PRODUCTS.filter(p => {
+      const matchName = p.name.toLowerCase().includes(query);
+      const matchCat = category === "Tous" || p.category === category;
+      return matchName && matchCat;
+    });
+
+    if(!list.length){
+      box.innerHTML = '<div class="empty" style="grid-column:1/-1">Aucun produit trouvé.</div>';
+      return;
+    }
+
+    box.innerHTML = list.map(p => `
+      <article class="product">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        <div class="product-body">
+          <div class="category-label">${p.category}</div>
+          <h3>${p.name}</h3>
+          <div class="price">${money(p.price)}</div>
+          <button onclick="addToCart(${p.id})">🛒 Ajouter au panier</button>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function saveCart(){
+    localStorage.setItem("timoShopCart", JSON.stringify(cart));
+  }
+
+  function addToCart(id){
+    const product = PRODUCTS.find(p => p.id === id);
+    const existing = cart.find(item => item.id === id);
+
+    if(existing) existing.qty++;
+    else cart.push({id: product.id, qty: 1});
+
+    saveCart();
+    updateCart();
+    showToast(product.name + " ajouté au panier");
+  }
+
+  function changeQty(id, amount){
+    const item = cart.find(x => x.id === id);
+    if(!item) return;
+    item.qty += amount;
+    if(item.qty <= 0) cart = cart.filter(x => x.id !== id);
+    saveCart();
+    updateCart();
+  }
+
+  function removeItem(id){
+    cart = cart.filter(x => x.id !== id);
+    saveCart();
+    updateCart();
+  }
+
+  function clearCart(){
+    cart = [];
+    saveCart();
+    updateCart();
+  }
+
+  function updateCart(){
+    const itemsBox = document.getElementById("cartItems");
+    let total = 0;
+    let count = 0;
+
+    if(!cart.length){
+      itemsBox.innerHTML = '<div class="empty">Votre panier est vide.</div>';
+    } else {
+      itemsBox.innerHTML = cart.map(item => {
+        const p = PRODUCTS.find(x => x.id === item.id);
+        const subtotal = p.price * item.qty;
+        total += subtotal;
+        count += item.qty;
+
+        return `
+          <div class="cart-item">
+            <img src="${p.image}" alt="${p.name}">
+            <div>
+              <h4>${p.name}</h4>
+              <div>${money(p.price)}</div>
+              <div class="qty">
+                <button onclick="changeQty(${p.id},-1)">−</button>
+                <b>${item.qty}</b>
+                <button onclick="changeQty(${p.id},1)">+</button>
+                <button class="remove" onclick="removeItem(${p.id})">Supprimer</button>
+              </div>
+            </div>
+            <b>${money(subtotal)}</b>
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("cartCount").textContent = count;
+    document.getElementById("cartTotal").textContent = money(total);
+
+    const messageLines = cart.map(item => {
+      const p = PRODUCTS.find(x => x.id === item.id);
+      return `- ${p.name} x${item.qty} = ${money(p.price * item.qty)}`;
+    });
+
+    const message = cart.length
+      ? `Bonjour Timo Shop, je souhaite passer cette commande :\n\n${messageLines.join("\n")}\n\nTotal : ${money(total)}\n\nMerci.`
+      : "Bonjour Timo Shop, je voudrais des informations sur vos produits.";
+
+    document.getElementById("whatsappOrder").href =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  }
+
+  function openCart(){
+    document.getElementById("cartPanel").classList.add("show");
+    document.getElementById("overlay").classList.add("show");
+  }
+
+  function closeCart(){
+    document.getElementById("cartPanel").classList.remove("show");
+    document.getElementById("overlay").classList.remove("show");
+  }
+
+  function showToast(text){
+    const toast = document.getElementById("toast");
+    toast.textContent = text;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+
+  initCategories();
+  renderProducts();
+  updateCart();
+</script>
 </body>
-  </html>
+        </html>
